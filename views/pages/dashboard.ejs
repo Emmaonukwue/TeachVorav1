@@ -1,0 +1,59 @@
+<%- include('../partials/navbar', { user: user }) %>
+
+<div style="max-width: 900px; margin: 2rem auto; padding: 0 1rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap;">
+        <h1 style="color: var(--primary-blue);">Welcome, <%= user.full_name %></h1>
+        <a href="/find-tutor" class="btn-primary" style="text-decoration: none;">+ Request New Tutor</a>
+    </div>
+
+    <!-- Stats Summary (Pending vs Active) -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+        <div class="card" style="text-align: center; padding: 1.5rem;">
+            <h3 style="color: var(--primary-blue);"><%= jobs ? jobs.filter(j => j.status === 'pending_review').length : 0 %></h3>
+            <p style="color: #666;">Pending Review</p>
+        </div>
+        <div class="card" style="text-align: center; padding: 1.5rem;">
+            <h3 style="color: var(--primary-green);"><%= jobs ? jobs.filter(j => j.status === 'published' || j.status === 'matched').length : 0 %></h3>
+            <p style="color: #666;">Active / Matched</p>
+        </div>
+    </div>
+
+    <!-- List of Requests -->
+    <h2 style="margin-bottom: 1rem;">My Requests</h2>
+    
+    <% if (!jobs || jobs.length === 0) { %>
+        <div class="card" style="text-align: center; padding: 3rem;">
+            <p style="color: #666;">You haven't submitted any requests yet.</p>
+        </div>
+    <% } else { %>
+        <% jobs.forEach(job => { %>
+            <div class="card" style="border-left: 4px solid <%= job.status === 'published' ? 'var(--primary-green)' : '#ffc107' %>;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
+                    <div>
+                        <h3 style="color: var(--primary-blue);"><%= job.subject %></h3>
+                        <div class="job-meta">
+                            <span>📚 <%= job.class_level %></span>
+                            <span>📍 <%= job.location %></span>
+                            <span>💻 <%= job.teaching_mode %></span>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <span style="background: <%= job.status === 'published' ? '#e8f5e9' : '#fff3cd' %>; color: <%= job.status === 'published' ? '#2e7d32' : '#856404' %>; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
+                            <%= job.status.replace('_', ' ').toUpperCase() %>
+                        </span>
+                        <p style="font-size: 0.8rem; color: #666; margin-top: 5px;">Submitted: <%= new Date(job.created_at).toLocaleDateString() %></p>
+                    </div>
+                </div>
+                
+                <% if (job.status === 'matched') { %>
+                    <div style="margin-top: 1rem; background: #e8f5e9; padding: 1rem; border-radius: 8px;">
+                        <p style="color: #2e7d32; font-weight: 600;">✅ Great news! A teacher has been matched to this request.</p>
+                        <p style="font-size: 0.9rem; color: #666;">Check your email/WhatsApp for contact details.</p>
+                    </div>
+                <% } %>
+            </div>
+        <% }) %>
+    <% } %>
+</div>
+
+<%- include('../partials/footer') %>

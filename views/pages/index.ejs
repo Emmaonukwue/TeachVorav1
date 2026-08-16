@@ -1,0 +1,60 @@
+<%- include('../partials/navbar', { user: user }) %>
+
+<!-- Hero Section with CSS classes (not inline) -->
+<section style="background: linear-gradient(135deg, #0056D2 0%, #00C4A7 100%); padding: 6rem 1rem; text-align: center; color: white;">
+    <div style="max-width: 800px; margin: 0 auto;">
+        <!-- FIXED: Logo now constrained to 80px via CSS -->
+        <img src="/images/logo.jpeg" alt="TeachVora Logo" style="height: 80px; width: auto; background: white; padding: 10px; border-radius: 16px; margin-bottom: 1.5rem; object-fit: contain;">
+        
+        <h1 style="font-size: 3rem; font-weight: 700; margin-bottom: 1rem;">
+            Qualified Teachers.<br>Trusted Connections.
+        </h1>
+        <p style="font-size: 1.2rem; margin-bottom: 2.5rem; opacity: 0.9; max-width: 600px; margin-left: auto; margin-right: auto;">
+            Connecting parents, schools, and verified educators across Nigeria for better learning outcomes.
+        </p>
+        
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <!-- USING YOUR CSS CLASS: btn-primary -->
+            <a href="/find-tutor" class="btn-primary" style="text-decoration: none; padding: 16px 32px;">
+                Find a Tutor
+            </a>
+            <a href="/teacher/register" style="background: rgba(255,255,255,0.2); color: white; padding: 16px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; border: 1px solid rgba(255,255,255,0.3);">
+                Register as a Teacher
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Value Proposition Section -->
+<section style="padding: 4rem 1rem; max-width: 1200px; margin: 0 auto;">
+    <h2 style="text-align: center; font-size: 2rem; color: #0056D2; margin-bottom: 3rem;">Why TeachVora?</h2>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+        <!-- USING YOUR CSS CLASS: card -->
+        <div class="card" style="text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🎓</div>
+            <h3 style="color: #0056D2;">Qualified Teachers</h3>
+            <p style="color: #666; line-height: 1.6;">Every teacher is manually verified. We check credentials, qualifications, and experience.</p>
+        </div>
+        <div class="card" style="text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🤝</div>
+            <h3 style="color: #0056D2;">Trusted Connections</h3>
+            <p style="color: #666; line-height: 1.6;">We don't just list tutors. We manually match the best teachers to your specific needs.</p>
+        </div>
+        <div class="card" style="text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">📈</div>
+            <h3 style="color: #0056D2;">Better Learning</h3>
+            <p style="color: #666; line-height: 1.6;">From nursery to university prep, we support WAEC, IB, IGCSE, and more.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section style="padding: 4rem 1rem; text-align: center; background: white;">
+    <div style="max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #0056D2; margin-bottom: 1rem;">Ready to Find the Perfect Teacher?</h2>
+        <p style="color: #666; margin-bottom: 2rem;">Join thousands of parents and schools who trust TeachVora.</p>
+        <a href="/find-tutor" class="btn-primary" style="text-decoration: none;">Get Started Now</a>
+    </div>
+</section>
+<%- include('../partials/footer') %>

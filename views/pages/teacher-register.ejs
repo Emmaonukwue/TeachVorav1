@@ -1,0 +1,95 @@
+<%- include('../partials/navbar', { user: user }) %>
+
+<div style="max-width: 700px; margin: 2rem auto; padding: 0 1rem;">
+    <div class="card">
+        <h2 style="margin-bottom: 1.5rem; color: var(--primary-blue);">Teacher Registration</h2>
+        <p style="color: #666; margin-bottom: 2rem;">Fill in your details. Your profile will be reviewed by our admin team.</p>
+        
+        <form action="/teacher/register" method="POST" enctype="multipart/form-data">
+            <!-- Personal Info -->
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="full_name" required>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label>Phone</label>
+                <input type="tel" name="phone" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" required>
+            </div>
+            
+            <!-- Professional Info -->
+            <div class="form-group">
+                <label>Qualifications (e.g., B.Ed, M.Sc, NCE)</label>
+                <input type="text" name="qualifications">
+            </div>
+            <div class="form-group">
+                <label>Teaching Experience</label>
+                <textarea name="experience" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Subjects you can teach</label>
+                <input type="text" name="subjects" placeholder="e.g., Mathematics, English, Physics">
+            </div>
+            <div class="form-group">
+                <label>Class Levels</label>
+                <select name="class_levels">
+                    <option value="EYFS">EYFS</option>
+                    <option value="KS2">KS2</option>
+                    <option value="KS3">KS3</option>
+                    <option value="KS4">KS4</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Curriculum Experience</label>
+                <input type="text" name="curriculum" placeholder="e.g., WAEC, NECO, IB">
+            </div>
+            
+            <!-- Preferences -->
+            <div class="form-group">
+                <label>Teaching Mode</label>
+                <select name="teaching_mode">
+                    <option value="online">Online</option>
+                    <option value="physical">Physical</option>
+                    <option value="hybrid">Hybrid</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>State/Area</label>
+                <input type="text" name="state_area">
+            </div>
+            <div class="form-group">
+                <label>Expected Rate (₦ per hour)</label>
+                <input type="number" name="expected_rate">
+            </div>
+            <div class="form-group">
+                <label>Availability (Days/Time)</label>
+                <input type="text" name="availability" placeholder="e.g., Weekdays 4pm-7pm">
+            </div>
+            
+            <!-- Documents -->
+            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Upload Documents</h3>
+            <div class="form-group">
+                <label>CV (PDF)</label>
+                <input type="file" name="cv" accept=".pdf">
+            </div>
+            <div class="form-group">
+                <label>Certificates (PDF)</label>
+                <input type="file" name="certificates" accept=".pdf">
+            </div>
+            <div class="form-group">
+                <label>Identification (PDF)</label>
+                <input type="file" name="identification" accept=".pdf">
+            </div>
+            
+            <button type="submit" class="btn-primary" style="width: 100%;">Submit for Review</button>
+        </form>
+    </div>
+</div>
+<%- include('../partials/footer') %>

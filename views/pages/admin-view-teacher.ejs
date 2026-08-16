@@ -1,0 +1,80 @@
+<div class="admin-wrapper">
+    <%- include('../partials/admin-sidebar', { currentPage: 'dashboard' }) %>
+
+    <div class="admin-content">
+        <a href="/admin/dashboard" style="display: inline-block; margin-bottom: 1rem; color: var(--primary-blue); text-decoration: none;">
+            &larr; Back to Dashboard
+        </a>
+
+        <div class="card">
+            <!-- Header: Name & Status -->
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; border-bottom: 1px solid #eee; padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                <div>
+                    <h1 style="color: var(--primary-blue); margin-bottom: 0.25rem;"><%= teacher.full_name %></h1>
+                    <p style="color: #666;"><i class="fas fa-envelope"></i> <%= teacher.email %> &nbsp;|&nbsp; <i class="fas fa-phone"></i> <%= teacher.phone %></p>
+                </div>
+                <div>
+                    <span class="status-badge <%= teacher.status === 'verified' ? 'status-verified' : 'status-pending' %>">
+                        Status: <%= teacher.status.toUpperCase() %>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Qualifications & Experience -->
+            <div style="margin-bottom: 1.5rem;">
+                <h3 style="color: var(--primary-blue); margin-bottom: 0.5rem;">Qualifications & Experience</h3>
+                <p><strong>Qualifications:</strong> <%= teacher.qualifications || 'Not provided' %></p>
+                <p><strong>Experience:</strong> <%= teacher.experience || 'Not provided' %></p>
+                <div style="margin-top: 0.5rem;">
+                    <span style="background: #e9ecef; padding: 4px 10px; border-radius: 4px; margin-right: 5px;"><%= teacher.subjects %></span>
+                    <span style="background: #e9ecef; padding: 4px 10px; border-radius: 4px;"><%= teacher.class_levels %></span>
+                </div>
+            </div>
+
+            <!-- Teaching Preferences (Restored) -->
+            <div style="margin-bottom: 1.5rem;">
+                <h3 style="color: var(--primary-blue); margin-bottom: 0.5rem;">Teaching Preferences</h3>
+                <p><strong>Mode:</strong> <%= teacher.teaching_mode %></p>
+                <p><strong>Location:</strong> <%= teacher.state_area %></p>
+                <p><strong>Expected Rate:</strong> ₦<%= teacher.expected_rate %> / hour</p>
+                <p><strong>Availability:</strong> <%= teacher.availability %></p>
+            </div>
+
+            <!-- Uploaded Documents (Restored) -->
+            <div style="margin-bottom: 1.5rem; border-top: 1px solid #eee; padding-top: 1rem;">
+                <h3 style="color: var(--primary-blue); margin-bottom: 0.5rem;">Uploaded Documents</h3>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <% if (teacher.cv_path) { %>
+                        <a href="/<%= teacher.cv_path %>" target="_blank" class="btn-primary" style="text-decoration: none; font-size: 0.9rem; padding: 8px 16px;"><i class="fas fa-file-pdf"></i> View CV</a>
+                    <% } else { %> <span style="color: #999;">No CV uploaded</span> <% } %>
+                    <% if (teacher.cert_path) { %>
+                        <a href="/<%= teacher.cert_path %>" target="_blank" class="btn-primary" style="text-decoration: none; font-size: 0.9rem; padding: 8px 16px; background: #17a2b8;"><i class="fas fa-certificate"></i> View Certificates</a>
+                    <% } else { %> <span style="color: #999;">No Certificates uploaded</span> <% } %>
+                    <% if (teacher.id_path) { %>
+                        <a href="/<%= teacher.id_path %>" target="_blank" class="btn-primary" style="text-decoration: none; font-size: 0.9rem; padding: 8px 16px; background: #6c757d;"><i class="fas fa-id-card"></i> View ID</a>
+                    <% } else { %> <span style="color: #999;">No ID uploaded</span> <% } %>
+                </div>
+            </div>
+
+            <!-- Action Buttons (Hidden if already Verified) -->
+            <% if (teacher.status !== 'verified') { %>
+                <div style="display: flex; gap: 1rem; border-top: 1px solid #eee; padding-top: 1.5rem;">
+                    <form action="/admin/verify-teacher" method="POST">
+                        <input type="hidden" name="teacherId" value="<%= teacher.user_id %>">
+                        <input type="hidden" name="action" value="approve">
+                        <button type="submit" style="background: #28a745; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 600;">Approve Teacher</button>
+                    </form>
+                    <form action="/admin/verify-teacher" method="POST">
+                        <input type="hidden" name="teacherId" value="<%= teacher.user_id %>">
+                        <input type="hidden" name="action" value="reject">
+                        <button type="submit" style="background: #dc3545; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 600;">Reject Teacher</button>
+                    </form>
+                </div>
+            <% } else { %>
+                <div style="margin-top: 1rem; padding: 1rem; background: #e8f5e9; border-radius: 8px; color: #2e7d32; text-align: center;">
+                    ✅ This teacher has already been verified and approved.
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>

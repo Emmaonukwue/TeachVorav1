@@ -1,0 +1,110 @@
+<%- include('../partials/navbar', { user: user }) %>
+
+<div style="max-width: 800px; margin: 3rem auto; padding: 0 1rem;">
+    <div class="card">
+        <h1 style="color: var(--primary-blue); margin-bottom: 0.5rem;">Find a Tutor</h1>
+        <p style="color: #666; margin-bottom: 2rem;">Fill in the details below. Our admin team will review your request and match you with the best qualified teacher.</p>
+
+        <!-- Form points to the parent/school controller -->
+        <form action="/parent/submit-request" method="POST">
+            
+            <!-- 1. Name and Contact Details -->
+            <div class="form-group">
+                <label for="full_name">Full Name / School Name</label>
+                <input type="text" id="full_name" name="full_name" placeholder="e.g., Mr. John Doe or Sunshine School" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="080XXXXXXX" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="role">I am a:</label>
+                <select id="role" name="role" required>
+                    <option value="parent">Parent</option>
+                    <option value="school">School / Institution</option>
+                </select>
+            </div>
+
+            <!-- 2. Service Required -->
+            <div class="form-group">
+                <label for="subject">Subject(s) Needed</label>
+                <input type="text" id="subject" name="subject" placeholder="e.g., Mathematics, English, Physics" required>
+            </div>
+
+            <div class="form-group">
+                <label for="class_level">Class / Age Level</label>
+                <input type="text" id="class_level" name="class_level" placeholder="e.g., Primary 5, SS2, University 100 Level" required>
+            </div>
+
+            <div class="form-group">
+                <label for="curriculum">Curriculum / Examination</label>
+                <input type="text" id="curriculum" name="curriculum" placeholder="e.g., WAEC, NECO, IB, IGCSE, SAT" required>
+            </div>
+
+            <div class="form-group">
+                <label for="num_students">Number of Students</label>
+                <input type="number" id="num_students" name="num_students" placeholder="1" min="1" required>
+            </div>
+
+            <!-- 3. Teaching Preferences -->
+            <div class="form-group">
+                <label for="teaching_mode">Teaching Mode Preferred</label>
+                <select id="teaching_mode" name="teaching_mode" required>
+                    <option value="online">Online</option>
+                    <option value="physical">Physical (In-Person)</option>
+                    <option value="hybrid">Hybrid (Both)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="location">State / Area</label>
+                <input type="text" id="location" name="location" placeholder="e.g., Lagos, Abuja, Rivers" required>
+            </div>
+
+            <div class="form-group">
+                <label for="schedule">Schedule (Days of Week / Time)</label>
+                <input type="text" id="schedule" name="schedule" placeholder="e.g., Mondays & Wednesdays, 4pm - 6pm" required>
+            </div>
+
+            <div class="form-group">
+                <label for="start_date">Preferred Start Date</label>
+                <input type="date" id="start_date" name="start_date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="budget">Budget (₦ per hour/month)</label>
+                <input type="number" id="budget" name="budget" placeholder="e.g., 5000" required>
+            </div>
+
+            <!-- 4. Teacher Requirements (PDF Page 2) -->
+            <div class="form-group">
+                <label for="teacher_requirements">Teacher Requirements (Mandatory & Optional)</label>
+                <select id="teacher_requirements" name="teacher_requirements" multiple style="height: 100px;">
+                    <option value="NCE">NCE</option>
+                    <option value="OND">OND</option>
+                    <option value="HND">HND</option>
+                    <option value="Bachelor's Degree">Bachelor's Degree</option>
+                    <option value="Master's Degree">Master's Degree</option>
+                    <option value="PhD">PhD</option>
+                    <option value="PGDE">PGDE</option>
+                    <option value="TRCN">TRCN Certification</option>
+                </select>
+                <small style="color: #666; display: block; margin-top: 5px;">Hold Ctrl (Cmd on Mac) to select multiple requirements.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="additional_info">Additional Information</label>
+                <textarea id="additional_info" name="additional_info" rows="4" placeholder="Any specific notes for the teacher..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary" style="width: 100%;">Submit Request for Review</button>
+        </form>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,39 @@
+<!-- THIS HEAD SECTION FIXES THE MISSING CSS ON ALL PAGES -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeachVora</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<!-- NAVBAR HTML -->
+<nav>
+    <a href="/" class="logo">
+        <img src="/images/logo.jpeg" alt="TeachVora" style="height: 40px; width: auto; object-fit: contain;">
+        <span>TeachVora</span>
+    </a>
+    <div style="display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;">
+        <a href="/" style="text-decoration: none; color: #333; font-weight: 500;">Home</a>
+        <a href="/find-tutor" style="text-decoration: none; color: #333; font-weight: 500;">Find a Tutor</a>
+        <a href="/jobs-board" style="text-decoration: none; color: #333; font-weight: 500;">Teaching Jobs</a>
+        <a href="/how-it-works" style="text-decoration: none; color: #333; font-weight: 500;">How It Works</a>
+        <a href="/about" style="text-decoration: none; color: #333; font-weight: 500;">About</a>
+        <a href="/contact" style="text-decoration: none; color: #333; font-weight: 500;">Contact</a>
+        
+        <!-- This user check now works because we passed { user: req.session.user } in app.js -->
+        <% if (user) { %>
+            <% if (user.role === 'admin') { %>
+                <a href="/admin/dashboard" class="btn-primary" style="text-decoration: none; padding: 8px 16px; font-size: 0.9rem;">Dashboard</a>
+            <% } else if (user.role === 'teacher') { %>
+                <a href="/teacher/dashboard" class="btn-primary" style="text-decoration: none; padding: 8px 16px; font-size: 0.9rem;">Dashboard</a>
+            <% } else { %>
+                <a href="/parent/dashboard" class="btn-primary" style="text-decoration: none; padding: 8px 16px; font-size: 0.9rem;">Dashboard</a>
+            <% } %>
+            <a href="/logout" style="text-decoration: none; color: #d32f2f; font-weight: 500;">Logout</a>
+        <% } else { %>
+            <a href="/login" style="text-decoration: none; color: #0056D2; font-weight: 600;">Login</a>
+        <% } %>
+    </div>
+</nav>

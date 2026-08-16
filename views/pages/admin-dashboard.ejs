@@ -1,0 +1,100 @@
+<!-- views/pages/admin-dashboard.ejs -->
+<div class="admin-wrapper">
+    <%- include('../partials/admin-sidebar', { currentPage: 'dashboard' }) %>
+
+    <div class="admin-content">
+        <h1 style="color: var(--primary-blue); margin-bottom: 1.5rem;">Dashboard Overview</h1>
+
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <a href="/admin/teachers" class="card stat-card stat-blue">
+                <div class="stat-number"><%= stats.total_teachers || 0 %></div>
+                <div class="stat-label">Total Teachers</div>
+            </a>
+            
+            <a href="/admin/teachers?status=verified" class="card stat-card stat-green">
+                <div class="stat-number"><%= stats.verified_teachers || 0 %></div>
+                <div class="stat-label">Verified</div>
+            </a>
+            
+            <a href="/admin/teachers?status=pending" class="card stat-card stat-yellow">
+                <div class="stat-number"><%= stats.pending_teachers || 0 %></div>
+                <div class="stat-label">Pending Review</div>
+            </a>
+            
+            <a href="/admin/jobs" class="card stat-card stat-teal">
+                <div class="stat-number"><%= stats.active_jobs || 0 %></div>
+                <div class="stat-label">Active Jobs</div>
+            </a>
+            
+            <a href="/admin/jobs?status=pending" class="card stat-card stat-cyan">
+                <div class="stat-number"><%= stats.pending_requests || 0 %></div>
+                <div class="stat-label">Pending Requests</div>
+            </a>
+        </div>
+
+        <!-- Pending Lists -->
+        <div class="pending-grid">
+            <!-- Pending Teacher Approvals -->
+            <div>
+                <h2 style="color: var(--primary-blue); margin-bottom: 1rem;">Pending Teacher Approvals</h2>
+                <% if (pendingTeachers.length === 0) { %>
+                    <div class="card" style="text-align: center; padding: 2rem;">
+                        <p style="color: #666;">🎉 No teachers waiting for approval!</p>
+                    </div>
+                <% } else { %>
+                    <% pendingTeachers.forEach(teacher => { %>
+                        <div class="card" style="margin-bottom: 1rem; padding: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
+                                <div>
+                                    <a href="/admin/teacher/<%= teacher.user_id %>" style="color: var(--primary-blue); text-decoration: none; font-weight: 600; font-size: 1.1rem;">
+                                        <%= teacher.full_name %>
+                                    </a>
+                                    <p style="color: #666; font-size: 0.9rem;"><i class="fas fa-envelope"></i> <%= teacher.email %></p>
+                                </div>
+                                <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                                    <form action="/admin/verify-teacher" method="POST">
+                                        <input type="hidden" name="teacherId" value="<%= teacher.user_id %>">
+                                        <input type="hidden" name="action" value="approve">
+                                        <button type="submit" class="btn-primary" style="background: #28a745; padding: 8px 16px; font-size: 0.85rem;">Approve</button>
+                                    </form>
+                                    <form action="/admin/verify-teacher" method="POST">
+                                        <input type="hidden" name="teacherId" value="<%= teacher.user_id %>">
+                                        <input type="hidden" name="action" value="reject">
+                                        <button type="submit" style="background: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.85rem;">Reject</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } %>
+            </div>
+
+            <!-- Pending Job Requests -->
+            <div>
+                <h2 style="color: var(--primary-blue); margin-bottom: 1rem;">Pending Job Requests</h2>
+                <% if (pendingJobs.length === 0) { %>
+                    <div class="card" style="text-align: center; padding: 2rem;">
+                        <p style="color: #666;">📋 No job requests pending review.</p>
+                    </div>
+                <% } else { %>
+                    <% pendingJobs.forEach(job => { %>
+                        <div class="card" style="margin-bottom: 1rem; padding: 1.5rem; border-left: 4px solid #ffc107;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <div>
+                                    <h3 style="color: var(--primary-blue);"><%= job.subject %></h3>
+                                    <p style="color: #666; font-size: 0.9rem;">Class: <%= job.class_level %></p>
+                                    <p style="color: #666; font-size: 0.9rem;">Location: <%= job.location %></p>
+                                </div>
+                                <form action="/admin/publish-job" method="POST">
+                                    <input type="hidden" name="jobId" value="<%= job.id %>">
+                                    <button type="submit" class="btn-primary" style="padding: 8px 16px; font-size: 0.85rem;">Publish to Board</button>
+                                </form>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>

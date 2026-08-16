@@ -1,0 +1,33 @@
+<%- include('../partials/navbar', { user: user }) %>
+
+<div style="max-width: 900px; margin: 2rem auto; padding: 0 1rem;">
+    <h1 style="color: var(--primary-blue);">Teaching Jobs</h1>
+    <p style="color: #666;">Verified opportunities for qualified teachers.</p>
+    
+    <% if (jobs.length === 0) { %>
+        <div class="card" style="text-align: center; padding: 3rem;">
+            <p>No active jobs at the moment. Check back later.</p>
+        </div>
+    <% } else { %>
+        <% jobs.forEach(job => { %>
+            <!-- USING YOUR CSS CLASSES: job-card, job-meta -->
+            <div class="card job-card">
+                <h3><%= job.subject %> - <%= job.class_level %></h3>
+                <div class="job-meta">
+                    <span>📍 <%= job.location %></span>
+                    <span>📚 <%= job.curriculum %></span>
+                    <span>💻 <%= job.teaching_mode %></span>
+                    <span>📅 <%= new Date(job.start_date).toLocaleDateString() %></span>
+                </div>
+                <div style="margin-top: 1rem; display: flex; gap: 10px;">
+                    <a href="/teacher/login" class="btn-primary" style="text-decoration: none;">Enquire About Job</a>
+                    <a href="#" class="btn-whatsapp">
+                        <i class="fab fa-whatsapp"></i> Enquire via WhatsApp
+                    </a>
+                </div>
+            </div>
+        <% }) %>
+    <% } %>
+</div>
+
+<%- include('../partials/footer') %>

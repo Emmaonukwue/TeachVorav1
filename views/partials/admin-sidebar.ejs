@@ -1,0 +1,53 @@
+<!-- views/partials/admin-sidebar.ejs -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeachVora Admin</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<div class="admin-sidebar">
+    <!-- Logo -->
+    <div class="sidebar-logo">
+        <img src="/images/logo.jpeg" alt="Logo">
+        <span>TeachVora</span>
+    </div>
+
+    <!-- Navigation Links -->
+    <nav class="sidebar-nav">
+        <p class="sidebar-label">Overview</p>
+        
+        <a href="/admin/dashboard" class="sidebar-link <%= currentPage === 'dashboard' ? 'active' : '' %>">
+            <i class="fas fa-chart-pie"></i> Dashboard
+        </a>
+
+        <p class="sidebar-label" style="margin-top: 1.5rem;">Management</p>
+
+        <a href="/admin/teachers" class="sidebar-link <%= currentPage === 'teachers' ? 'active' : '' %>">
+            <i class="fas fa-chalkboard-teacher"></i> All Teachers
+        </a>
+
+        <a href="/admin/jobs" class="sidebar-link <%= currentPage === 'jobs' ? 'active' : '' %>">
+            <i class="fas fa-briefcase"></i> All Jobs
+        </a>
+
+        <a href="/admin/parents" class="sidebar-link <%= currentPage === 'parents' ? 'active' : '' %>">
+            <i class="fas fa-user-friends"></i> Parents & Schools
+        </a>
+    </nav>
+
+    <!-- Bottom Actions -->
+    <div class="sidebar-bottom">
+        <a href="/" target="_blank" class="sidebar-visit-btn">
+            <i class="fas fa-external-link-alt"></i> Visit Website
+        </a>
+        <a href="/logout" class="sidebar-logout">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+        <div class="sidebar-footer-text">
+            &copy; 2026 TeachVora Admin
+        </div>
+    </div>
+</div>

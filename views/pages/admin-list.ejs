@@ -1,0 +1,79 @@
+<!-- views/pages/admin-list.ejs -->
+<div class="admin-wrapper">
+    <%- include('../partials/admin-sidebar', { currentPage: currentPage }) %>
+
+    <div class="admin-content">
+        <h1 style="color: var(--primary-blue); margin-bottom: 1.5rem;"><%= pageTitle %></h1>
+
+        <% if (records.length === 0) { %>
+            <div class="card" style="text-align: center; padding: 3rem;">
+                <p style="color: #666;">No records found.</p>
+            </div>
+        <% } else { %>
+            <div class="card admin-table-wrap">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <% if (type === 'teachers') { %>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            <% } else if (type === 'jobs') { %>
+                                <th>Subject</th>
+                                <th>Class</th>
+                                <th>Location</th>
+                                <th>Status</th>
+                            <% } else if (type === 'parents') { %>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                            <% } %>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% records.forEach((record, index) => { %>
+                            <tr>
+                                <td><%= index + 1 %></td>
+                                <% if (type === 'teachers') { %>
+                                    <td>
+                                        <a href="/admin/teacher/<%= record.user_id %>" style="color: var(--primary-blue); text-decoration: none;">
+                                            <%= record.full_name %>
+                                        </a>
+                                    </td>
+                                    <td><%= record.email %></td>
+                                    <td>
+                                        <span class="status-badge <%= record.status === 'verified' ? 'status-verified' : 'status-pending' %>">
+                                            <%= record.status.toUpperCase() %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="/admin/teacher/<%= record.user_id %>" class="btn-primary" style="text-decoration: none; padding: 4px 12px; font-size: 0.8rem;">View</a>
+                                    </td>
+                                <% } else if (type === 'jobs') { %>
+                                    <td><%= record.subject %></td>
+                                    <td><%= record.class_level %></td>
+                                    <td><%= record.location %></td>
+                                    <td>
+                                        <span class="status-badge <%= record.status === 'published' ? 'status-published' : 'status-pending' %>">
+                                            <%= record.status.replace('_', ' ').toUpperCase() %>
+                                        </span>
+                                    </td>
+                                <% } else if (type === 'parents') { %>
+                                    <td><%= record.full_name %></td>
+                                    <td><%= record.email %></td>
+                                    <td>
+                                        <span class="status-badge status-role">
+                                            <%= record.role.toUpperCase() %>
+                                        </span>
+                                    </td>
+                                <% } %>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        <% } %>
+    </div>
+</div>
