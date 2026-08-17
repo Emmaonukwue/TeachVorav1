@@ -25,4 +25,10 @@ router.get('/parents', isAdmin, adminController.listParents);
 router.post('/verify-teacher', isAdmin, adminController.verifyTeacher);
 router.post('/publish-job', isAdmin, adminController.publishJob);
 
+// View Enquiries for a specific Job
+router.get('/job/:jobId/enquiries', isAdmin, adminController.viewJobEnquiries);
+
+// Match Teacher to Job (Manual Action)
+router.post('/match-teacher', isAdmin, adminController.matchTeacher);
+
 module.exports = router;

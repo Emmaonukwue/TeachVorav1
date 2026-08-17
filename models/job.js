@@ -55,6 +55,13 @@ class JobModel {
         return result.insertId;
     }
 
+    // Get jobs for a specific user (Parent/School dashboard)
+    static async findByUserId(userId) {
+        if (!userId) return []; // Safety check
+        const [rows] = await db.execute('SELECT * FROM jobs WHERE user_id = ?', [userId]);
+        return rows;
+    }
+
     // Get published jobs
     static async getPublishedJobs() {
         const [rows] = await db.execute(

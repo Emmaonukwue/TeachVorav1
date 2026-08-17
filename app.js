@@ -45,7 +45,10 @@ app.get('/', (req, res) => {
 });
 
 app.get('/find-tutor', (req, res) => {
-    res.render('pages/find-tutor', { user: req.session.user || null });
+    res.render('pages/find-tutor', { 
+        user: req.session.user || null,
+        error: null 
+    });
 });
 
 app.get('/how-it-works', (req, res) => {

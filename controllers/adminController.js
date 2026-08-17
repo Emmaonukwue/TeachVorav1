@@ -132,6 +132,44 @@ exports.verifyTeacher = async (req, res) => {
         const newStatus = action === 'approve' ? 'verified' : 'rejected';
         await TeacherModel.updateStatus(teacherId, newStatus);
         await AuditModel.log(req.session.user.id, `Teacher ${action}ed`, teacherId);
+
+        // Inside exports.verifyTeacher, right before res.redirect('/admin/dashboard');
+
+        // ... (after updating the status in the database) ...
+
+        // Fetch the teacher's email so we can notify them
+        const [teacherData] = await db.execute('SELECT email, full_name FROM users WHERE id = ?', [teacherId]);
+        if (teacherData.length > 0) {
+            const teacher = teacherData[0];
+            
+            // Configure email
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'onukwueemma@gmail.com',
+                    pass: 'bfqo gfmc mfno vyru'
+                }
+            });
+
+            const statusMessage = newStatus === 'verified' 
+                ? 'Congratulations! Your TeachVora profile has been <strong>VERIFIED</strong>. You can now log in and apply for jobs.'
+                : 'Unfortunately, your TeachVora profile has been rejected. Please contact support for more information.';
+
+            const mailOptions = {
+                from: '"TeachVora Admin" <no-reply@teachvora.com>',
+                to: teacher.email,
+                subject: `TeachVora Profile ${newStatus === 'verified' ? 'Verified' : 'Rejected'}`,
+                html: `
+                    <h3>Hello ${teacher.full_name},</h3>
+                    <p>${statusMessage}</p>
+                    <p><a href="https://teachvora.com/login">Log in to your dashboard</a> to view your status.</p>
+                `
+            };
+
+            transporter.sendMail(mailOptions, (error) => {
+                if (error) console.error("Admin approval email failed:", error);
+            });
+}
         res.redirect('/admin/dashboard');
     } catch (err) {
         console.error("Verify Teacher Error:", err);
@@ -148,5 +186,53 @@ exports.publishJob = async (req, res) => {
     } catch (err) {
         console.error("Publish Job Error:", err);
         res.status(500).send('Error publishing job');
+    }
+};
+
+// View Enquiries for a specific Job (Admin Manual Review)
+exports.viewJobEnquiries = async (req, res) => {
+    const { jobId } = req.params;
+    try {
+        // 1. Get the Job details
+        const db = require('../config/db');
+        const [jobRows] = await db.execute('SELECT * FROM jobs WHERE id = ?', [jobId]);
+        const job = jobRows[0];
+
+        if (!job) return res.status(404).send('Job not found');
+
+        // 2. Get all teachers who enquired for this job
+        const enquiries = await JobModel.getEnquiriesForJob(jobId);
+
+        res.render('pages/admin-job-enquiries', { 
+            user: req.session.user, 
+            job: job,
+            enquiries: enquiries || []
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error loading enquiries');
+    }
+};
+
+// Manually Match a Teacher to a Job (Admin WhatsApp action)
+exports.matchTeacher = async (req, res) => {
+    const { jobId, teacherId } = req.body;
+    try {
+        const db = require('../config/db');
+
+        // 1. Update the job status to 'matched'
+        await db.execute('UPDATE jobs SET status = "matched" WHERE id = ?', [jobId]);
+
+        // 2. Update the specific enquiry to 'matched'
+        await db.execute('UPDATE enquiries SET status = "matched" WHERE job_id = ? AND teacher_id = ?', [jobId, teacherId]);
+
+        // 3. Log the audit
+        await db.execute('INSERT INTO audit_logs (admin_id, action, target_id) VALUES (?, ?, ?)', 
+            [req.session.user.id, `Matched Job ${jobId} to Teacher ${teacherId}`, jobId]);
+
+        res.redirect('/admin/dashboard?msg=Teacher+successfully+matched!+Contact+them+via+WhatsApp.');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error matching teacher');
     }
 };

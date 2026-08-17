@@ -11,6 +11,6 @@ function isParent(req, res, next) {
 }
 
 router.get('/dashboard', isParent, parentController.getDashboard);
-router.post('/submit-request', isParent, parentController.submitRequest);
+router.post('/submit-request', parentController.submitRequest);
 
 module.exports = router;

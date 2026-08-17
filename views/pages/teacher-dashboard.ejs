@@ -1,0 +1,25 @@
+<%- include('../partials/navbar', { user: user }) %>
+
+<div style="max-width: 900px; margin: 2rem auto; padding: 0 1rem;">
+    <h1 style="color: var(--primary-blue);">Welcome, <%= user.full_name %></h1>
+    
+    <div class="card" style="margin-top: 1.5rem;">
+        <h3 style="color: var(--primary-blue); margin-bottom: 1rem;">Your Profile Status</h3>
+        <% if (profile && profile.status === 'verified') { %>
+            <div style="background: #e8f5e9; padding: 1rem; border-radius: 8px; color: #2e7d32;">
+                <strong>✅ Verified!</strong> You can now apply for jobs.
+                <a href="/teacher/jobs" class="btn-primary" style="text-decoration: none; margin-left: 1rem; padding: 8px 16px;">View Jobs</a>
+            </div>
+        <% } else if (profile && profile.status === 'pending') { %>
+            <div style="background: #fff3cd; padding: 1rem; border-radius: 8px; color: #856404;">
+                <strong>⏳ Pending Review</strong> Your account is waiting for admin approval.
+            </div>
+        <% } else { %>
+            <div style="background: #f8d7da; padding: 1rem; border-radius: 8px; color: #721c24;">
+                <strong>⚠️ Incomplete</strong> Please complete your registration.
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

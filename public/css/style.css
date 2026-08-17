@@ -285,3 +285,89 @@ nav { background: white; padding: 1rem 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0
         grid-template-columns: 1fr;
     }
 }
+
+/* ==========================================
+   ADMIN JOB ENQUIRIES PAGE
+   ========================================== */
+.enquiry-card {
+    margin-bottom: 1rem;
+    padding: 1.5rem;
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+.enquiry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+.enquiry-name {
+    color: var(--primary-blue);
+    margin: 0 0 0.25rem 0;
+}
+.enquiry-contact {
+    font-size: 0.9rem;
+    color: #666;
+}
+.enquiry-details {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0.25rem;
+}
+.enquiry-actions {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+.btn-whatsapp-small {
+    background: #25D366;
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.btn-whatsapp-small:hover {
+    background: #1ebe57;
+}
+.btn-match {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+.btn-match:hover {
+    background: #218838;
+}
+.manual-action-box {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+.manual-action-box h4 {
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+.manual-action-box p {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 1rem;
+    color: var(--primary-blue);
+    text-decoration: none;
+}
+.back-link:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,66 @@
+<div class="admin-wrapper">
+    <%- include('../partials/admin-sidebar', { currentPage: 'jobs' }) %>
+
+    <div class="admin-content">
+        <a href="/admin/jobs" class="back-link">
+            &larr; Back to All Jobs
+        </a>
+
+        <div class="card" style="margin-bottom: 2rem;">
+            <h2 style="color: var(--primary-blue);">Job Enquiries: <%- job.subject %></h2>
+            <p style="color: #666;"><strong>Class:</strong> <%- job.class_level %> | <strong>Location:</strong> <%- job.location %></p>
+            
+            <div class="manual-action-box">
+                <h4>📞 Manual Action Required</h4>
+                <p>
+                    To match a teacher, you must manually contact the <strong>Parent</strong> and the <strong>Teacher</strong> via WhatsApp/Phone.
+                    Once the deal is closed, click <strong>"Match Teacher"</strong> below.
+                </p>
+            </div>
+        </div>
+
+        <h3 style="margin-bottom: 1rem; color: #333;">Teachers who expressed interest</h3>
+        
+        <% if (enquiries.length === 0) { %>
+            <div class="card" style="text-align: center; padding: 2rem;">
+                <p style="color: #666;">No teachers have enquired about this job yet.</p>
+            </div>
+        <% } else { %>
+            <% enquiries.forEach(enquiry => { %>
+                <div class="enquiry-card" style="border-left: 4px solid <%= enquiry.status === 'matched' ? '#28a745' : '#ffc107' %>;">
+                    <div class="enquiry-header">
+                        <div>
+                            <h4 class="enquiry-name"><%= enquiry.full_name %></h4>
+                            <p class="enquiry-contact">
+                                <i class="fas fa-envelope"></i> <%= enquiry.email %> | 
+                                <i class="fas fa-phone"></i> <%= enquiry.phone %>
+                            </p>
+                            <p class="enquiry-details">
+                                <strong>Quals:</strong> <%= enquiry.qualifications %> | 
+                                <strong>Subjects:</strong> <%= enquiry.subjects %>
+                            </p>
+                            <span class="status-badge <%= enquiry.status === 'matched' ? 'status-verified' : 'status-pending' %>">
+                                <%= enquiry.status.toUpperCase() %>
+                            </span>
+                        </div>
+                        
+                        <div class="enquiry-actions">
+                            <!-- Admin WhatsApp Button -->
+                            <a href="https://wa.me/<%= enquiry.phone %>?text=Hello%20<%= enquiry.full_name %>%2C%20TeachVora%20Admin%20here." target="_blank" class="btn-whatsapp-small">
+                                <i class="fab fa-whatsapp"></i> WhatsApp Teacher
+                            </a>
+                            
+                            <% if (enquiry.status !== 'matched') { %>
+                                <form action="/admin/match-teacher" method="POST" style="display: inline-block; margin: 0;">
+                                    <input type="hidden" name="jobId" value="<%= job.id %>">
+                                    <input type="hidden" name="teacherId" value="<%= enquiry.teacher_id %>">
+                                    <button type="submit" class="btn-match">Match & Place</button>
+                                </form>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+</div>
